@@ -1,0 +1,36 @@
+{% extends "auctions/layout.html" %} {% block body%}
+<h1>{{ list.title }}</h1>
+<form action="{% url 'watchlist' %}" method="POST">
+  {% csrf_token %}
+  <input type="hidden" name="listid" value="{{ list.id }}">
+  <button name="button" type="submit">Watchlist</button>
+</form>
+<img
+  style="max-width: 400px; max-height: 400px"
+  src="{{ list.image }}"
+  alt="image"
+/>
+<h3>Price: ${{ list.current_price }}</h3>
+{% if user.is_authenticated %}
+<form action = "{% url 'bid' %}" method = "POST">
+    {% csrf_token %}
+    <input class="search" type="text" name="b" placeholder="Bid">
+    <input type="hidden" name="id" value="{{ list.id }}">
+    <input type="submit">
+</form>
+{% endif %}
+<h5>{{ message }}</h5>
+<h5>{{ list.description }}</h5>
+<h4>Comments: </h4>
+{% if user.is_authenticated %}
+<form method="POST" action = "{% url 'comment' id=list.id%}">
+  {% csrf_token %}
+  <textarea name="comment"></textarea>
+  <input type="hidden" name="id" value="{{ list.id }}">
+  <button name="button" type="submit">Submit</button>
+</form>
+{% endif %}
+{% for comment in comments %}
+<li>{{ comment }}</li>
+{% endfor %}
+{% endblock %}

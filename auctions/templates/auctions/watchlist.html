@@ -1,0 +1,13 @@
+{% extends "auctions/layout.html" %} {% block body%}
+<h1>WATCHLIST</h1>
+
+{% for watch in watchlist %}
+<li>{{ watch.title }} : {{ watch.description }} </li>
+<img
+  style="max-width: 400px; max-height: 400px"
+  src="{{ watch.image }}"
+  alt="image"
+/>
+
+{{ watch.id }}
+{% endfor %} {% endblock %}
